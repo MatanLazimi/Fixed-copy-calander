@@ -28,7 +28,15 @@ class _DateWidgetState extends ConsumerState<DatePickerWidget> {
       var year = chosenDate.year.toString().substring(2, 4);
       return Center(
         child: Container(
-          color: Colors.white,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            //color of border
+            border: Border.all(
+              color: Theme.of(context).primaryColor,
+              width: 2,
+            ),
+          ),
           width: 328.35,
           height: 500,
           child: Column(

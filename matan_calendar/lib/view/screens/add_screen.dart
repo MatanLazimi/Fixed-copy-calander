@@ -107,7 +107,7 @@ class _AddScreenState extends ConsumerState<AddScreen> {
   }
 
   onSendPressed(AddController controller, BuildContext context) {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState?.validate() ?? false) {
       controller.add(from, to, price, date);
       controller.pressOnSubmit();
       setState(() {
@@ -136,7 +136,6 @@ class _AddScreenState extends ConsumerState<AddScreen> {
       // open the modal
       BotToast.showAttachedWidget(
           allowClick: false,
-          backgroundColor: Colors.black,
           target: const Offset(0, 0),
           attachedBuilder: (c) {
             return DatePickerWidget(
