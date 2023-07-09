@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class BtnWidget extends StatelessWidget {
   final Function()? onPressed;
-  BtnWidget({super.key, required this.onPressed});
+  final String text;
+  BtnWidget({super.key, required this.onPressed, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class BtnWidget extends StatelessWidget {
       child: ElevatedButton(
         key: GlobalKey(),
         onPressed: onPressed,
-        child: const Text('Send'),
+        child: Text(text),
       ),
     );
   }

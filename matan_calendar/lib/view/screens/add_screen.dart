@@ -75,6 +75,7 @@ class _AddScreenState extends ConsumerState<AddScreen> {
             space,
             BtnWidget(
               onPressed: () => onSendPressed(controller, context),
+              text: Strings.SEND,
             )
           ],
         ),

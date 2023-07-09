@@ -10,4 +10,5 @@ class Strings {
   static String DATE = 'Insert a date';
   static String PRESS_DATE = 'Press to select date';
   static String SLESH = '/';
+  static String SEND = 'Send';
 }
