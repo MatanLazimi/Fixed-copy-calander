@@ -25,7 +25,6 @@ class _AddScreenState extends ConsumerState<AddScreen> {
   String to = '';
   String price = '';
   DateTime date = DateTime.now();
-
   Widget build(BuildContext context) {
     // watch the provider to rebuild when the state changes
     ref.watch(addControllerProvider);
@@ -47,17 +46,7 @@ class _AddScreenState extends ConsumerState<AddScreen> {
             TimeInputField(
               textAlign: TextAlign.center,
               // The validator receives the text that the user has entered.
-              validator: (value) {
-                if (value == null ||
-                    value.isEmpty ||
-                    value == to ||
-                    value == from) {
-                  return Strings.CORRECT_TIME;
-                } else {
-                  from = value;
-                }
-                return null;
-              },
+              validator: (value) => validatorTo(value),
             ),
             space,
             Text(
@@ -67,14 +56,7 @@ class _AddScreenState extends ConsumerState<AddScreen> {
             TimeInputField(
               textAlign: TextAlign.center,
               // The validator receives the text that the user has entered.
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return Strings.CORRECT_TIME;
-                } else {
-                  to = value;
-                }
-                return null;
-              },
+              validator: (value) => validatorFrom(value),
             ),
             space,
             Text(
@@ -85,25 +67,45 @@ class _AddScreenState extends ConsumerState<AddScreen> {
               keyboardType: TextInputType.number,
               textAlign: TextAlign.center,
               // The validator receives the text that the user has entered.
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return Strings.SOME_TEXT;
-                } else {
-                  price = value;
-                }
-                return null;
-              },
+              validator: textValidator,
             ),
             space,
             DatePickerUI(date: date, onTapDate: onTapDate),
             space,
             BtnWidget(
-              onPressed: onSendPressed(controller, context),
+              onPressed: () => onSendPressed(controller, context),
             )
           ],
         ),
       ),
     );
+  }
+
+  String? validatorFrom(value) {
+    if (value == null || value.isEmpty || value == to || value == from) {
+      return Strings.CORRECT_TIME;
+    } else {
+      from = value;
+    }
+    return null;
+  }
+
+  String? validatorTo(value) {
+    if (value == null || value.isEmpty) {
+      return Strings.CORRECT_TIME;
+    } else {
+      to = value;
+    }
+    return null;
+  }
+
+  String? textValidator(value) {
+    if (value == null || value.isEmpty) {
+      return Strings.SOME_TEXT;
+    } else {
+      price = value;
+    }
+    return null;
   }
 
   onSendPressed(AddController controller, BuildContext context) {
