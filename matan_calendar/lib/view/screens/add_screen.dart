@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:matan_calendar/view/style/strings.dart';
 import 'package:matan_calendar/view/widgets/add_form/date_widget.dart';
 import 'package:matan_calendar/view/widgets/add_form/time_widget.dart';
@@ -28,6 +29,8 @@ class _AddScreenState extends ConsumerState<AddScreen> {
   Widget build(BuildContext context) {
     // watch the provider to rebuild when the state changes
     ref.watch(addControllerProvider);
+    // read the provider to access the state
+    AddController controller = ref.read(addControllerProvider.notifier);
 
     return Form(
       key: _formKey,
@@ -95,16 +98,27 @@ class _AddScreenState extends ConsumerState<AddScreen> {
             DatePickerUI(date: date, onTapDate: onTapDate),
             space,
             BtnWidget(
-              formKey: _formKey,
-              date: date,
-              from: from,
-              to: to,
-              price: price,
+              onPressed: onSendPressed(controller, context),
             )
           ],
         ),
       ),
     );
+  }
+
+  onSendPressed(AddController controller, BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      controller.add(from, to, price, date);
+      controller.pressOnSubmit();
+      setState(() {
+        from = '';
+        to = '';
+        price = '';
+        date = DateTime.now();
+      });
+      // the extra is used to select the correct tab navigation bar
+      context.replace('/', extra: 0);
+    }
   }
 
   onTapDate() {
